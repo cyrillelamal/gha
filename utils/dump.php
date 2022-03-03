@@ -5,12 +5,16 @@
  * @todo parametrize
  */
 
-define('BAN_LINE', 'mysqldump:');
+const TO_SKIP = [
+    'mysqldump:',
+    'Unable to close the console',
+    'failed to get console mode for stdout',
+];
 
-define('CONTAINER', 'db'); // Docker COmpose container name
-define('USER', 'exampleuser'); // Database user
-define('PASSWORD', 'examplepass'); // Database password
-define('DB_NAME', 'exampledb');
+const CONTAINER = 'db'; // Docker Compose container name
+const USER = 'exampleuser'; // Database user
+const PASSWORD = 'examplepass'; // Database password
+const DB_NAME = 'exampledb';
 
 
 $cmd = sprintf(
@@ -23,10 +27,12 @@ $cmd = sprintf(
 
 $sql = shell_exec($cmd);
 
-echo implode(
-    "\n",
-    array_filter(
-        explode("\n", $sql),
-        fn (string $line) => !str_starts_with($line, BAN_LINE)
-    )
-);
+$lines = explode("\n", $sql);
+
+echo implode("\n", array_filter($lines, function (string $line) {
+    foreach (TO_SKIP as $ban) {
+        if (str_starts_with($line, $ban)) return false;
+    }
+
+    return true;
+}));
