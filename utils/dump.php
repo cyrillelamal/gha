@@ -1,7 +1,8 @@
+#!/usr/bin/env php
 <?php
 
 /**
- * Usage: php utils/dump.php > dump.sql
+ * Usage: php utils/dump.php
  * @todo parametrize
  */
 
@@ -16,6 +17,9 @@ const USER = 'exampleuser'; // Database user
 const PASSWORD = 'examplepass'; // Database password
 const DB_NAME = 'exampledb';
 
+// Real path of this script...
+const TARGET = __DIR__ . '/../dumps/dump.sql';
+
 
 $cmd = sprintf(
     'docker-compose exec %s mysqldump -u%s -p%s %s',
@@ -25,14 +29,17 @@ $cmd = sprintf(
     DB_NAME
 );
 
+
 $sql = shell_exec($cmd);
 
 $lines = explode("\n", $sql);
 
-echo implode("\n", array_filter($lines, function (string $line) {
+$result = implode("\n", array_filter($lines, function (string $line) {
     foreach (TO_SKIP as $ban) {
-        if (str_starts_with($line, $ban)) return false;
+        if (strpos($line, $ban) === 0) return false;
     }
 
     return true;
 }));
+
+file_put_contents(TARGET, $result);

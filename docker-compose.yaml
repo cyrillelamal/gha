@@ -1,10 +1,9 @@
 version: "3.1"
-
 services:
   # admin
   # LecOaToQQNm0cWIMIf
   wordpress:
-    image: wordpress
+    image: wordpress:5.9.1-apache
     restart: always
     ports:
       - "8080:80"
@@ -20,5 +19,7 @@ services:
     env_file:
       - .env
     volumes:  # Use utils/dump.php to dump the database
-      - ./db:/var/lib/mysql
+      - db_data:/var/lib/mysql
       - ./dumps:/docker-entrypoint-initdb.d
+volumes:
+  db_data: {}
