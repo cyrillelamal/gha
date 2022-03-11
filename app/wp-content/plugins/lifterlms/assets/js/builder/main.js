@@ -6,7 +6,7 @@
  * @version 5.4.0
  */
 require( [
-	'app/wp-content/plugins/lifterlms/assets/js/builder/vendor/wp-hooks',
+	'vendor/wp-hooks',
 	'vendor/backbone.collectionView',
 	'vendor/backbone.trackit',
 	'Controllers/Construct',

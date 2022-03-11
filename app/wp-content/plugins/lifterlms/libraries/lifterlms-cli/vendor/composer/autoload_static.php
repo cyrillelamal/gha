@@ -16,12 +16,12 @@ class ComposerStaticInitaa475372d1afb7f112bf50e9b8859e3a
     public static $prefixDirsPsr4 = array (
         'LifterLMS\\CLI\\' => 
         array (
-            0 => __DIR__ . '/../..',
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
