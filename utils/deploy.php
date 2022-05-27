@@ -11,9 +11,6 @@ $dump = 'dumps/z-dump-'. time() .'.sql';
 file_put_contents($dump, $sql);
 
 `docker-compose up -d`;
-`docker-compose exec ubuntu bash wait-for-it.sh db:3306`;
-
-unlink($dump);
 
 // $sql = '';
 // $handle = fopen('utils/deploy.php', 'rt');
