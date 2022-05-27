@@ -34,7 +34,7 @@ class DatabaseContainer
     ) {
     }
 
-    public function updateWpOptionsTable(string $newDomain): string
+    public function updateWpOptionsTable(string $newDomain): ?string
     {
         $sql = <<<SQL
 UPDATE wp_options
@@ -45,7 +45,7 @@ SQL;
         return $this->executeQuery($sql);
     }
 
-    public function updateWpPostsTable(string $oldDomain, string $newDomain): string
+    public function updateWpPostsTable(string $oldDomain, string $newDomain): ?string
     {
         $sql = <<<SQL
 UPDATE wp_posts 
@@ -55,7 +55,7 @@ SQL;
         return $this->executeQuery($sql);
     }
 
-    public function executeQuery(string $sql): string
+    public function executeQuery(string $sql): ?string
     {
         $cmd = "docker-compose exec {$this->name} -u{$this->user} -p{$this->password} {$this->db} -e \"$sql\"";
 
