@@ -21,5 +21,26 @@ services:
     volumes:  # Use utils/dump.php to dump the database
       - db_data:/var/lib/mysql
       - ./dumps:/docker-entrypoint-initdb.d
+  nginx:
+    image: nginx:1.22.0-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      - .env
+    volumes:
+      - ./nginx/cyrillekossyguine.xyz.conf:/etc/nginx/conf.d/cyrillekossyguine.xyz.conf:ro
+      - ./var/log/nginx:/var/log/nginx:rw
+    depends_on:
+      - wordpress
+      - db
+  php:
+    image: php:8.1.6-fpm-alpine
+    volumes:
+      - ./utils:/utils:rw
+    working_dir: /utils
+    depends_on:
+      - wordpress
+      - db
 volumes:
   db_data: {}
